@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  check-branch-name:
+    name: Check branch naming convention
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate head branch starts with feature/
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          echo "Branch being merged: $HEAD_REF"
+          if [[ "$HEAD_REF" != feature/* ]]; then
+            echo "::error::PRs must come from a branch starting with 'feature/' (got '$HEAD_REF')."
+            exit 1
+          fi
+          echo "Branch name OK."
+
+  test-coverage:
+    name: Run tests with coverage >= 90%
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests with coverage threshold
+        run: pytest --cov=src --cov-report=term-missing --cov-fail-under=90
