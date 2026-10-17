@@ -39,3 +39,5 @@ src/calculator.py        # código de exemplo
 tests/test_calculator.py # testes cobrindo o código acima
 .github/workflows/ci.yml # workflow de CI
 ```
+# concurrency demo commit 1
+# concurrency demo commit 2
