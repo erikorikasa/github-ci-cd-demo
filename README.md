@@ -41,3 +41,5 @@ tests/test_calculator.py # testes cobrindo o código acima
 ```
 # concurrency demo commit 1
 # concurrency demo commit 2
+
+<!-- commit de demonstração -->
